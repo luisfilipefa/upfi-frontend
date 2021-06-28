@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+interface ContainerProps {
+  iconBg?: string;
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -8,5 +12,9 @@ export const Container = styled.div`
 
   span {
     cursor: pointer;
+
+    svg {
+      fill: ${(props) => props.iconBg || "transparent"};
+    }
   }
 `;
