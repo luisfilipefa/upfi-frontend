@@ -1,21 +1,33 @@
+import { ISignInParams, ISignUpParams } from "../interfaces/auth.interface";
 import { ReactNode, createContext, useEffect, useState } from "react";
+import {
+  destroyAuthCookies,
+  updateAuthCookies,
+} from "../utils/handleAuthCookies";
 
-import { ISignInParams } from "../interfaces/auth.interface";
 import { IUser } from "../interfaces/user.interface";
+import Router from "next/router";
 import { api } from "../services/api";
 import { parseCookies } from "nookies";
 import toast from "react-hot-toast";
-import { updateAuthCookies } from "../utils/handleAuthCookies";
 
 interface AuthContextData {
   user: IUser;
   isAuthenticated: boolean;
   handleSignIn: (values: ISignInParams) => Promise<boolean>;
+  handleSignUp: (values: ISignUpParams) => Promise<boolean>;
 }
 
 interface AuthProviderProps {
   children: ReactNode;
 }
+
+export const handleSignOut = (ctx = undefined) => {
+  destroyAuthCookies(ctx);
+
+  Router.reload();
+  Router.push("/");
+};
 
 export const AuthContext = createContext({} as AuthContextData);
 
@@ -45,6 +57,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   };
 
+  const handleSignUp = async (values: ISignUpParams) => {
+    try {
+      await api.post("/user", values);
+
+      const success = await handleSignIn({
+        email: values.email,
+        password: values.password,
+      });
+
+      return success;
+    } catch (error) {
+      console.log(error.response);
+
+      return false;
+    }
+  };
+
   useEffect(() => {
     const cookies = parseCookies();
 
@@ -58,7 +87,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, handleSignIn }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, handleSignIn, handleSignUp }}
+    >
       {children}
     </AuthContext.Provider>
   );
