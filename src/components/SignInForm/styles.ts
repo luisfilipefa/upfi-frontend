@@ -1,3 +1,5 @@
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
 import styled from "styled-components";
 
 export const Container = styled.div`
@@ -17,15 +19,6 @@ export const Form = styled.form`
   padding: 2rem;
 
   background: var(--gray-800);
-  border-radius: 0.5rem;
-`;
-
-export const TextInput = styled.input`
-  background: var(--gray-900);
-  border: none;
-  height: 40px;
-  padding: 0 0.5rem;
-  color: var(--gray-50);
   border-radius: 0.5rem;
 `;
 
