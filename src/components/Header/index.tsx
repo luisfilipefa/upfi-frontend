@@ -1,25 +1,41 @@
-import { Container, Content } from "./styles";
+import { Container, Content, SignButtonsContainer } from "./styles";
 
+import { Button } from "../Button";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import Router from "next/router";
 import { UserBadge } from "../UserBadge";
 import logoImg from "../../../public/logo.svg";
+import { useAuth } from "../../hooks/useAuth";
 
 export function Header() {
-  const user = {
-    id: "1",
-    name: "Luis",
-    avatar: "https://avatars.githubusercontent.com/u/70351489?v=4",
-    email: "luisfilipe@example.com",
-    custom_username: "@luisfilipefa",
-    created_at: Date.now(),
-  };
+  const { user, isAuthenticated } = useAuth();
 
   return (
     <Container>
       <Content>
-        <Image src={logoImg} alt="Upfi" width="120px" objectFit="cover" />
-        <UserBadge user={user} />
+        <Link href="/" passHref>
+          <a>
+            <Image src={logoImg} alt="Upfi" width="120px" objectFit="cover" />
+          </a>
+        </Link>
+        {isAuthenticated ? (
+          <UserBadge user={user} />
+        ) : (
+          <SignButtonsContainer>
+            <Button
+              variant="fill"
+              bg="var(--orange-500)"
+              onClick={() => Router.push("/signin")}
+            >
+              Sign In
+            </Button>
+            <Button variant="outline" onClick={() => Router.push("/signup")}>
+              Sign Up
+            </Button>
+          </SignButtonsContainer>
+        )}
       </Content>
     </Container>
   );
