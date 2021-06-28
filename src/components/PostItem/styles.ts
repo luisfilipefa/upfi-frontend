@@ -26,4 +26,11 @@ export const PostInfo = styled.div`
 
   position: absolute;
   bottom: 0;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
 `;

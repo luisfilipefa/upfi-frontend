@@ -1,13 +1,18 @@
 import { Container, PostInfo } from "./styles";
 
+import { IPost } from "../../interfaces/post.interface";
 import Image from "next/image";
-import { Post } from "../../interfaces/post.interface";
+import { LikesCounter } from "../LikesCounter";
+import Link from "next/link";
+import { useAuth } from "../../hooks/useAuth";
 
 interface PostItemProps {
-  post: Post;
+  post: IPost;
 }
 
 export function PostItem({ post }: PostItemProps) {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Container>
       <Image
@@ -20,7 +25,12 @@ export function PostItem({ post }: PostItemProps) {
       <PostInfo>
         <p>{post.title}</p>
         <div>
-          <p>{post.author.custom_username}</p>
+          <Link href={`/profile/${post.author.id}`} passHref>
+            <a>{post.author.custom_username}</a>
+          </Link>
+          {isAuthenticated && (
+            <LikesCounter postId={post.id} likes={post.likes} />
+          )}
         </div>
       </PostInfo>
     </Container>
