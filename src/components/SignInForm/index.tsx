@@ -1,28 +1,45 @@
-import { Container, Form, SubmitButton, TextInput } from "./styles";
+import { Container, Form, SubmitButton } from "./styles";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
+import { ISignInParams } from "../../interfaces/auth.interface";
+import Router from "next/router";
+import { TextInput } from "../TextInput";
+import { useAuth } from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
-
-interface IOnSubmitParams {
-  email: string;
-  password: string;
-}
+import { useState } from "react";
 
 export function SignInForm() {
+  const { handleSignIn } = useAuth();
+  const [showPwd, setShowPwd] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (values: IOnSubmitParams) => {};
+  const onSubmit = async (values: ISignInParams) => {
+    const success = await handleSignIn(values);
+
+    if (success) Router.push("/");
+  };
 
   return (
     <Container>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="email">Email</label>
-        <TextInput name="email" {...register("email")} />
-        <label htmlFor="password">Senha</label>
-        <TextInput name="password" {...register("password")} />
+        <TextInput
+          name="email"
+          type="email"
+          label="Email"
+          {...register("email")}
+        />
+        <TextInput
+          name="password"
+          type={showPwd ? "text" : "password"}
+          label="Senha"
+          Icon={showPwd ? FiEyeOff : FiEye}
+          onIconClik={() => setShowPwd(!showPwd)}
+          {...register("password")}
+        />
         <SubmitButton type="submit">
           {isSubmitting ? "Carregando..." : "Entrar"}
         </SubmitButton>

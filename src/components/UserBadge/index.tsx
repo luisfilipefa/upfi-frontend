@@ -1,9 +1,9 @@
 import { Avatar, Container, Info } from "./styles";
 
-import { User } from "../../interfaces/user.interface";
+import { IUser } from "../../interfaces/user.interface";
 
 interface UserBadgeProps {
-  user: User;
+  user: IUser;
 }
 
 export function UserBadge({ user }: UserBadgeProps) {
