@@ -21,7 +21,7 @@ export const Content = styled.div`
   margin: 0 auto;
 `;
 
-export const SignButtonsContainer = styled.div`
+export const Flex = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;

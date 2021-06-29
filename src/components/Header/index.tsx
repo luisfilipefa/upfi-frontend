@@ -1,4 +1,4 @@
-import { Container, Content, SignButtonsContainer } from "./styles";
+import { Container, Content, Flex } from "./styles";
 
 import { Button } from "../Button";
 import Image from "next/image";
@@ -8,9 +8,11 @@ import Router from "next/router";
 import { UserBadge } from "../UserBadge";
 import logoImg from "../../../public/logo.svg";
 import { useAuth } from "../../hooks/useAuth";
+import { useNewPostModal } from "../../hooks/useNewPostModal";
 
 export function Header() {
   const { user, isAuthenticated } = useAuth();
+  const { onOpen } = useNewPostModal();
 
   return (
     <Container>
@@ -21,9 +23,14 @@ export function Header() {
           </a>
         </Link>
         {isAuthenticated ? (
-          <UserBadge user={user} />
+          <Flex>
+            <Button variant="fill" bg="var(--orange-500)" onClick={onOpen}>
+              Novo post
+            </Button>
+            <UserBadge user={user} />
+          </Flex>
         ) : (
-          <SignButtonsContainer>
+          <Flex>
             <Button
               variant="fill"
               bg="var(--orange-500)"
@@ -34,7 +41,7 @@ export function Header() {
             <Button variant="outline" onClick={() => Router.push("/signup")}>
               Sign Up
             </Button>
-          </SignButtonsContainer>
+          </Flex>
         )}
       </Content>
     </Container>

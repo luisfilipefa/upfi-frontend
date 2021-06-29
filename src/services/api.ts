@@ -1,4 +1,6 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+
+import { handleSignOut } from "../context/AuthContext";
 import { parseCookies } from "nookies";
 
 let cookies = parseCookies();

@@ -79,9 +79,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     if (cookies["upfi.token"]) {
       (async () => {
-        const { data } = await api.get("/session");
+        try {
+          const { data } = await api.get("/session");
 
-        setUser(data);
+          setUser(data);
+        } catch {
+          handleSignOut();
+        }
       })();
     }
   }, []);
