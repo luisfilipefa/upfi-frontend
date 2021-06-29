@@ -21,11 +21,20 @@ export const Form = styled.form`
 `;
 
 export const SubmitButton = styled.button`
-  margin-top: 1.5rem;
   height: 40px;
   background: var(--orange-500);
   border: none;
   border-radius: 0.5rem;
   color: var(--gray-50);
   font-weight: bold;
+  padding: 0 1rem;
+`;
+
+export const Flex = styled.div`
+  margin-top: 1.5rem;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
 `;
