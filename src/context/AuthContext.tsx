@@ -26,7 +26,6 @@ export const handleSignOut = (ctx = undefined) => {
   destroyAuthCookies(ctx);
 
   Router.reload();
-  Router.push("/");
 };
 
 export const AuthContext = createContext({} as AuthContextData);

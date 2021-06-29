@@ -8,9 +8,10 @@ import { useAuth } from "../../hooks/useAuth";
 
 interface PostItemProps {
   post: IPost;
+  showUsername?: boolean;
 }
 
-export function PostItem({ post }: PostItemProps) {
+export function PostItem({ post, showUsername = true }: PostItemProps) {
   const { isAuthenticated } = useAuth();
 
   return (
@@ -25,9 +26,11 @@ export function PostItem({ post }: PostItemProps) {
       <PostInfo>
         <p>{post.title}</p>
         <div>
-          <Link href={`/profile/${post.author.id}`} passHref>
-            <a>{post.author.custom_username}</a>
-          </Link>
+          {showUsername && (
+            <Link href={`/profile/${post.author.id}`} passHref>
+              <a>{post.author.custom_username}</a>
+            </Link>
+          )}
           {isAuthenticated && (
             <LikesCounter postId={post.id} likes={post.likes} />
           )}
